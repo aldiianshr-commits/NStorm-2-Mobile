@@ -1,0 +1,16 @@
+95:FAILURE: Build failed with an exception.
+97:* What went wrong:
+98:Execution failed for task ':app:processReleaseResources'.
+101:     ERROR: AAPT: warn: removing resource com.nstorm2mobile:string/trigger_mode without required default value.
+103:     error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+104:     error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+105:     error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+106:     error: failed linking references.
+116:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:processReleaseResources'.
+177:Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask$TaskAction
+330:Caused by: com.android.builder.internal.aapt.v2.Aapt2Exception: Android resource linking failed
+331:ERROR: AAPT: warn: removing resource com.nstorm2mobile:string/trigger_mode without required default value.
+333:error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+334:error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+335:error: resource style/NStorm (aka com.nstorm2mobile:style/NStorm) not found.
+336:error: failed linking references.
