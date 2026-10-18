@@ -85,6 +85,9 @@ android {
         release {
             minifyEnabled false
             shrinkResources false
+            // Upstream ships GIF animation frames with a .png extension (res/drawable/ab_gear_*);
+            // AAPT2's PNG cruncher rejects them, so keep resources byte-identical as in debug builds.
+            crunchPngs false
             signingConfig signingConfigs.nstorm2
         }
     }
