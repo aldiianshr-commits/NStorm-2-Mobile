@@ -1,0 +1,14 @@
+88:FAILURE: Build failed with an exception.
+90:* What went wrong:
+91:Execution failed for task ':app:mergeReleaseResources'.
+95:        ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0005.png: AAPT: error: file failed to compile.
+99:        ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0011.png: AAPT: error: file failed to compile.
+103:        ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0038.png: AAPT: error: file failed to compile.
+112:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:mergeReleaseResources'.
+144:Caused by: org.gradle.api.internal.tasks.execution.TaskExecution$MultipleTaskActionFailures: Multiple task action failures occurred:
+382:Caused by: com.android.builder.internal.aapt.v2.Aapt2Exception: Android resource compilation failed
+383:ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0005.png: AAPT: error: file failed to compile.
+549:Caused by: com.android.builder.internal.aapt.v2.Aapt2Exception: Android resource compilation failed
+550:ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0011.png: AAPT: error: file failed to compile.
+719:Caused by: com.android.builder.internal.aapt.v2.Aapt2Exception: Android resource compilation failed
+720:ERROR: /home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/src/main/res/drawable/ab_gear_0038.png: AAPT: error: file failed to compile.
