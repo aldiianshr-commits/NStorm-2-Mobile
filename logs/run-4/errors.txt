@@ -1,0 +1,10 @@
+101:Note: Some input files use or override a deprecated API.
+102:Note: Recompile with -Xlint:deprecation for details.
+103:Note: Some input files use unchecked or unsafe operations.
+104:Note: Recompile with -Xlint:unchecked for details.
+127:FAILURE: Build failed with an exception.
+129:* What went wrong:
+130:Execution failed for task ':app:packageRelease'.
+140:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:packageRelease'.
+172:Caused by: org.gradle.workers.internal.DefaultWorkerExecutor$WorkExecutionException: A failure occurred while executing com.android.build.gradle.tasks.PackageAndroidArtifact$IncrementalSplitterRunnable
+301:Caused by: java.lang.IllegalStateException: Zip file '/home/runner/work/NStorm-2-Mobile/NStorm-2-Mobile/app/build/outputs/apk/release/app-release.apk' already contains entry 'assets/dexopt/baseline.prof', cannot overwrite
