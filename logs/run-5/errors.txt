@@ -1,0 +1,9 @@
+108:Note: Some input files use or override a deprecated API.
+109:Note: Recompile with -Xlint:deprecation for details.
+110:Note: Some input files use unchecked or unsafe operations.
+111:Note: Recompile with -Xlint:unchecked for details.
+179:FAILURE: Build failed with an exception.
+181:* What went wrong:
+182:Execution failed for task ':app:lintVitalRelease'.
+217:org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':app:lintVitalRelease'.
+249:Caused by: java.lang.RuntimeException: Lint found fatal errors while assembling a release target.
