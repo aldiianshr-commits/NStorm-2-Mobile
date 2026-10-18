@@ -22,7 +22,7 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="NStorm.SectionTitle">
+    <style name="NStorm.SectionTitle" parent="">
         <item name="android:textColor">@color/nstorm_accent</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
@@ -40,12 +40,12 @@
         <item name="contentPadding">16dp</item>
     </style>
 
-    <style name="NStorm.StatusLabel">
+    <style name="NStorm.StatusLabel" parent="">
         <item name="android:textColor">@color/nstorm_text</item>
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="NStorm.StatusValue">
+    <style name="NStorm.StatusValue" parent="">
         <item name="android:textColor">@color/nstorm_text_muted</item>
         <item name="android:textSize">13sp</item>
         <item name="android:layout_marginTop">2dp</item>
