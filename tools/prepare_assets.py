@@ -48,12 +48,19 @@ def log(msg):
     print(msg, flush=True)
 
 
+# Upstream asset paths that must not be shipped. assets/dexopt/baseline.prof is a
+# leftover from an extracted APK and clashes with the ART profile AGP generates.
+EXCLUDED_UPSTREAM = ("dexopt/",)
+
+
 def copy_upstream_assets(upstream_assets, out_assets):
     copied = 0
     for root, _dirs, files in os.walk(upstream_assets):
         for name in files:
             src = os.path.join(root, name)
             rel = os.path.relpath(src, upstream_assets)
+            if rel.replace(os.sep, "/").startswith(EXCLUDED_UPSTREAM):
+                continue
             dst = os.path.join(out_assets, rel)
             if os.path.exists(dst):
                 continue  # tracked in this repo (possibly modified) - keep ours
