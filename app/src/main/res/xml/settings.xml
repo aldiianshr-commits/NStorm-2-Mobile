@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Grafis" app:iconSpaceReserved="false">
+        <ListPreference
+            app:key="render_scale"
+            app:title="Skala resolusi render"
+            app:defaultValue="100"
+            app:entries="@array/scale_entries"
+            app:entryValues="@array/scale_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            app:key="msaa"
+            app:title="Anti-aliasing (MSAA)"
+            app:defaultValue="4"
+            app:entries="@array/msaa_entries"
+            app:entryValues="@array/msaa_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            app:key="texture_filter"
+            app:title="Filter tekstur"
+            app:defaultValue="trilinear"
+            app:entries="@array/filter_entries"
+            app:entryValues="@array/filter_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            app:key="max_texture"
+            app:title="Ukuran tekstur maksimum"
+            app:defaultValue="2048"
+            app:entries="@array/maxtex_entries"
+            app:entryValues="@array/maxtex_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            app:key="lighting"
+            app:title="Pencahayaan"
+            app:summary="Mati: warna tekstur asli tanpa bayangan."
+            app:defaultValue="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Performa" app:iconSpaceReserved="false">
+        <ListPreference
+            app:key="fps_cap"
+            app:title="Batas FPS"
+            app:defaultValue="60"
+            app:entries="@array/fps_entries"
+            app:entryValues="@array/fps_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            app:key="show_stats"
+            app:title="Tampilkan statistik (FPS, segitiga)"
+            app:defaultValue="true"
+            app:iconSpaceReserved="false" />
+        <ListPreference
+            app:key="decode_threads"
+            app:title="Thread dekode tekstur"
+            app:defaultValue="4"
+            app:entries="@array/threads_entries"
+            app:entryValues="@array/threads_values"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Kontrol" app:iconSpaceReserved="false">
+        <SeekBarPreference
+            app:key="touch_sensitivity"
+            app:title="Sensitivitas sentuh"
+            app:defaultValue="100"
+            app:min="25"
+            android:max="250"
+            app:showSeekBarValue="true"
+            app:iconSpaceReserved="false" />
+        <SeekBarPreference
+            app:key="pad_sensitivity"
+            app:title="Sensitivitas gamepad"
+            app:defaultValue="100"
+            app:min="25"
+            android:max="250"
+            app:showSeekBarValue="true"
+            app:iconSpaceReserved="false" />
+        <SwitchPreferenceCompat
+            app:key="invert_y"
+            app:title="Balik sumbu vertikal"
+            app:defaultValue="false"
+            app:iconSpaceReserved="false" />
+        <SeekBarPreference
+            app:key="pad_deadzone"
+            app:title="Deadzone stik (%)"
+            app:defaultValue="15"
+            app:min="0"
+            android:max="40"
+            app:showSeekBarValue="true"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</PreferenceScreen>

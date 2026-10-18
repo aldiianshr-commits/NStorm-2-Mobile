@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ns_bg"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@color/ns_icon_bg"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_ns_foreground" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/app_name"
+                        android:textColor="@color/ns_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tagline"
+                        android:textColor="@color/ns_muted"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnScan"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="22dp"
+                android:text="PINDAI DATA GAME"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08"
+                app:backgroundTint="@color/ns_accent"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_refresh"
+                app:iconGravity="textStart"
+                app:iconTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/scanHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="@color/ns_muted"
+                android:textSize="12sp" />
+
+            <TextView
+                style="@style/NS.Section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="STATUS" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/NS.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/statusList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                style="@style/NS.Section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ENGINE" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGallery"
+                style="@style/NS.Action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Galeri Model 3D"
+                app:icon="@drawable/ic_cube" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBrowse"
+                style="@style/NS.Action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jelajahi Aset (CPK / XFBIN / Tekstur)"
+                app:icon="@drawable/ic_search" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFolder"
+                style="@style/NS.Action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pilih Folder Game"
+                app:icon="@drawable/ic_folder" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSettings"
+                style="@style/NS.Action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Pengaturan Grafis, Performa &amp; Kontrol"
+                app:icon="@drawable/ic_tune" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHelp"
+                style="@style/NS.Action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bantuan &amp; Status Pengembangan"
+                app:icon="@drawable/ic_help" />
+
+            <TextView
+                android:id="@+id/footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:textColor="@color/ns_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

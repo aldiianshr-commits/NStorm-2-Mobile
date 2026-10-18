@@ -1,122 +1,93 @@
-# NStorm 2 Mobile
+# NStorm 2 Mobile (native)
 
-Aplikasi Android (APK) untuk menjalankan **Naruto Shippuden: Ultimate Ninja Storm 2 versi PC (NSUNS2.exe)** di perangkat Android ARM64, dengan target utama **Xiaomi Pad 6 (Snapdragon 870, Adreno 650)** dan driver **Mesa Turnip**.
+Aplikasi **Android native** (Java + OpenGL ES 3) yang membaca dan menampilkan data asli **Naruto Shippuden: Ultimate Ninja Storm 2 versi PC** langsung di perangkat Android, dengan target utama **Xiaomi Pad 6 (Snapdragon 870, Adreno 650)**.
 
-> Game **tidak** disertakan. Anda harus menyalin file game PC milik Anda sendiri ke perangkat.
+**Tanpa emulator.** Aplikasi ini tidak memakai Wine, Proton, Box64, FEX, DXVK, Winlator atau penerjemah CPU apa pun. Arsip dan model game dibaca oleh kode Java dan digambar dengan GPU perangkat.
 
-## Apa ini sebenarnya
+> Data game **tidak** disertakan. Anda harus menyalin file game PC milik Anda sendiri.
+> Versi lama berbasis Winlator (v1.0.0) tetap tersedia di branch [`winlator-legacy`](../../tree/winlator-legacy) dan rilis v1.0.0.
 
-Kode sumber game tidak tersedia, jadi "port" yang realistis bukan kompilasi ulang, melainkan **lapisan kompatibilitas** yang menjalankan file `.exe` PC apa adanya:
+## Status: alpha — engine & penampil aset, belum bisa dimainkan
 
-```
-NSUNS2.exe (x86-64, Direct3D 11, XInput)
-   │  Windows API ............ Wine / Proton 9.0
-   │  CPU x86-64 → ARM64 ..... FEXCore (ARM64EC, bawaan) atau Box64 (cadangan)
-   │  Direct3D 11 → Vulkan ... DXVK (2.3.1 GPL-Async ARM64EC / 2.4.1 GPL-Async)
-   │  Vulkan → Adreno 650 .... Mesa Turnip 25.x (Adrenotools) atau driver Qualcomm
-   ▼
-Android (X server internal, audio ALSA/PulseAudio, gamepad XInput virtual)
-```
+Kode sumber Storm 2 tidak tersedia, jadi versi native harus dibangun ulang dari nol di atas data asli. Pendekatannya sama seperti proyek *engine reimplementation* (mis. OpenMW): engine baru membaca format file aslinya.
 
-NStorm 2 Mobile dibangun di atas **[Winlator Cmod](https://github.com/coffincolors/winlator)** (lisensi MIT) dan menambahkan peluncur khusus satu game:
-
-| Fitur | Implementasi |
+| Bagian | Status |
 |---|---|
-| Folder game | Bawaan `/storage/emulated/0/nstorm2/`, bisa diganti (penyimpanan internal / SD / USB). `NSUNS2.exe` dicari otomatis sampai 4 tingkat subfolder. Folder dipetakan ke drive `D:` di Wine. |
-| Save game | Disinkronkan ke `/storage/emulated/0/nstorm2/saves/` sebelum game dibuka dan setelah ditutup (Steam `userdata\<id>\543870`, `Documents`, `AppData\Roaming`). Cadangan otomatis di `saves/.backup/` (10 terakhir). |
-| Kontrol sentuh | Profil gamepad Xbox virtual (stik kiri/kanan, D-pad, A/B/X/Y, LB/RB/LT/RT, L3/R3, BACK/START), bisa diedit; transparansi diatur. Game menampilkan prompt tombol Xbox, jadi tata letak mengikutinya. |
-| Gamepad fisik | USB/Bluetooth otomatis menjadi pemain 1 (XInput). Mode kontrol: otomatis / sentuh / gamepad. |
-| Grafis | Pilihan driver (Turnip 25.3.0 R3 Auto/GMEM, Turnip 25.1.0, Qualcomm), versi DXVK, kompilasi shader async, resolusi 960×600 – 1920×1200, regangkan layar, sinkronisasi frame, mode sysmem Turnip, batas memori video. |
-| Performa | Batas FPS (30/45/60/bebas), penghitung FPS, afinitas CPU ke inti Cortex-A77 (4–7) Snapdragon 870, preset Box64, driver audio. |
-| Mesin | ARM64EC + FEXCore (bawaan, lebih cepat) atau x86-64 + Box64. Masing-masing memakai container Wine sendiri; save dibagi lewat folder `saves/`. |
-| Steam | Mode "Melalui klien Steam untuk Windows" (Steam dijalankan dulu, lalu game). Tidak ada crack/bypass DRM. |
-| Mode lanjutan | Antarmuka Winlator Cmod lengkap tetap tersedia. |
+| Arsip CRI **CPK** (TOC & ITOC, tabel @UTF terenkripsi, kompresi **CRILAYLA**) | ✅ selesai, diverifikasi byte-identik terhadap sampel CPK nyata |
+| Kontainer CyberConnect2 **XFBIN** (halaman, chunk, referensi) | ✅ selesai, diuji dengan file yang ditulis xfbin_lib |
+| Tekstur **NUT/NTP3** (DXT1/3/5, BC4/5, RGB565, RGBA4444, ARGB/ABGR8888) | ✅ dekode CPU + ekspor PNG |
+| Model **NUD/NDP3** + kerangka **clump/coord** + material → tekstur | ✅ pose dasar (bind pose) |
+| Penampil 3D (OpenGL ES 3): kamera orbit, wireframe, MSAA, skala render, batas FPS | ✅ |
+| Kontrol layar sentuh & gamepad di penampil | ✅ |
+| Animasi (nuccChunkAnm), efek, kamera game | ⏳ berikutnya |
+| Gameplay pertarungan, AI, menu, audio (CRI ADX/ACB), video, save progres | ❌ belum dibuat |
 
 ## Unduh & instal
 
-1. Buka **[Releases](../../releases)** dan unduh `NStorm2Mobile-v<versi>-<commit>.apk` (±700 MB, karena memuat sistem Wine, Proton, DXVK, dan driver Turnip). Build dari setiap commit juga tersedia sebagai *artifact* di tab **Actions**.
-2. Izinkan instalasi dari sumber tidak dikenal untuk browser/file manager Anda, lalu buka APK.
-   - Android 14+ dapat menampilkan peringatan "dibuat untuk versi Android lama". Ini wajar: `targetSdk` sengaja 28 agar Wine/Box64 boleh mengeksekusi program dari folder data aplikasi.
-   - Jika Play Protect memperingatkan, pilih *Instal saja*.
-3. Buka **NStorm 2 Mobile** → ketuk *Izin penyimpanan* → pilih **Akses semua file**.
-4. Tunggu pemasangan sistem pertama kali (±1–3 menit, hanya sekali).
-5. Salin isi folder instalasi PC **NARUTO SHIPPUDEN Ultimate Ninja STORM 2** (±8 GB) ke `/storage/emulated/0/nstorm2/` sehingga ada `/storage/emulated/0/nstorm2/NSUNS2.exe`.
-6. Kembali ke aplikasi, status *File game* menjadi hijau → ketuk **MAINKAN**.
+1. Buka **[Releases](../../releases)** dan unduh `NStorm2Mobile-v2.0.0-alpha.1.apk` (beberapa MB saja, karena tidak lagi membawa sistem Wine). Build tiap commit juga ada di tab **Actions** sebagai *artifact*.
+2. Instal APK (izinkan sumber tidak dikenal). Versi ini memakai ID & kunci yang sama dengan v1, sehingga bisa diinstal menimpanya; sisa runtime Wine v1 (~2 GB) dihapus otomatis saat pertama dibuka.
+3. Salin folder instalasi PC **NARUTO SHIPPUDEN Ultimate Ninja STORM 2** (berisi `NSUNS2.exe` dan folder data) ke `/storage/emulated/0/nstorm2/`.
+4. Buka aplikasi → ketuk *Izin penyimpanan* → aktifkan **akses semua file**.
+5. Ketuk **PINDAI DATA GAME**, lalu buka **Galeri Model 3D** atau **Jelajahi Aset**.
 
-Saat bermain: **ketuk 4 jari** atau tombol Kembali untuk membuka menu (Keluar, keyboard, ganti profil kontrol). Pembukaan pertama lebih lama karena shader dikompilasi.
+## Fitur
 
-## Setelan yang disarankan untuk Xiaomi Pad 6
+- **Folder game**: bawaan `/storage/emulated/0/nstorm2/`, bisa diganti ke folder lain (internal, kartu SD, USB). Semua arsip CPK dideteksi dari isinya (magic `CPK `), apa pun nama/ekstensinya. Data game hanya dibaca.
+- **Folder save**: `/storage/emulated/0/nstorm2/saves/` berisi data engine — indeks model (`model_index.tsv`) dan ekspor (`export/`). Save progres game akan disimpan di sini begitu mode permainan ada.
+- **Galeri Model 3D**: memindai semua XFBIN, mencari yang berisi clump (karakter, stage, properti), dengan pencarian nama.
+- **Jelajahi Aset**: daftar seluruh isi arsip dengan filter & pencarian; isi XFBIN per chunk; penampil tekstur (zoom, alpha) dan ekspor PNG/mentah.
+- **Penampil 3D**: tekstur + pencahayaan, wireframe, alpha test, sumbu Y/Z, sembunyikan/tampilkan bagian mesh, statistik FPS/segitiga.
+- **Kontrol**
+  - Sentuh: geser 1 jari = putar · cubit = zoom · geser 2 jari = geser kamera · ketuk 2× = reset.
+  - Gamepad (USB/Bluetooth): stik kiri = putar · stik kanan = geser · LT/RT atau L1/R1 = zoom · A = wireframe · X = cahaya · Y = reset · B = kembali · Select = daftar bagian.
+- **Pengaturan grafis & performa**: skala render 50–100 %, MSAA mati/2×/4×, filter tekstur, batas ukuran tekstur, batas FPS 30/60/120/bebas, jumlah thread dekode, sensitivitas sentuh/gamepad, deadzone, balik sumbu Y.
 
-| Setelan | Nilai |
-|---|---|
-| Mesin | ARM64EC + FEXCore |
-| Driver GPU | Turnip 25.3.0 R3 Auto |
-| DXVK | Otomatis (2.3.1 GPL-Async ARM64EC) + shader asinkron aktif |
-| Resolusi | 1280×800 (layar Pad 6 16:10) |
-| Batas FPS | 60 (pilih 30 jika perangkat panas) |
-| Inti CPU | 4–7 |
-| Sistem | Aktifkan *Game Turbo*/mode performa HyperOS |
+### Xiaomi Pad 6 / Adreno 650
 
-Jika muncul layar hitam/crash: coba DXVK 2.4.1 GPL-Async + mesin x86-64, atau aktifkan *Mode render sysmem Turnip*, atau driver Turnip 25.1.0.
+Nilai bawaan disetel untuk Snapdragon 870: render 100 %, MSAA 4×, trilinear, 60 FPS, 4 thread dekode tekstur (sesuai 4 inti Cortex-A77). Adreno tidak mendukung tekstur DXT/S3TC di OpenGL ES, jadi tekstur didekode di CPU sekali saat model dimuat. **Turnip tidak diperlukan**: aplikasi native memakai driver GPU bawaan sistem lewat OpenGL ES 3 — driver Turnip hanya relevan untuk lapisan emulasi Vulkan/DXVK.
 
-## Batasan teknis (jujur)
-
-- **Versi Steam butuh klien Steam.** `NSUNS2.exe` versi Steam memanggil Steamworks dan akan mencoba membuka ulang lewat Steam; tanpa klien Steam yang berjalan, game biasanya langsung tertutup. NStorm 2 mendukung menjalankan **Steam untuk Windows di dalam Wine** (taruh `SteamSetup.exe` resmi di folder game → *Jalankan Program Lain* → login → ubah *Cara menjalankan* ke *Melalui klien Steam*). Klien Steam berat di emulasi dan bisa lambat/tidak stabil. Aplikasi ini **tidak** menyertakan crack/emulator Steam.
-- **Belum diuji di perangkat fisik oleh pembuat build ini.** Yang sudah diverifikasi: kompilasi APK di CI, isi APK, tanda tangan, dan bahwa setiap path sistem sudah dialihkan ke nama paket baru. Kompatibilitas aktual Storm 2 (FPS, stabilitas, audio/video cutscene) bergantung pada Wine/FEX/DXVK/Turnip dan perlu diuji di perangkat. Silakan laporkan hasil di *Issues*.
-- **Performa:** CPU x86-64 diemulasikan. Snapdragon 870 kemungkinan memberi 30–60 FPS tergantung adegan; jurus besar/efek berat bisa turun.
-- Online/jaringan tidak didukung secara khusus. Mod/trainer tidak didukung.
-- Penyimpanan bersama Android (FUSE) lebih lambat dari penyimpanan internal aplikasi; waktu muat bisa lebih lama dari PC.
-- Ukuran APK besar (±700 MB) karena seluruh sistem Linux/Wine dibundel agar bisa offline.
-
-## Struktur folder di perangkat
+## Arsitektur
 
 ```
-/storage/emulated/0/nstorm2/
-├── NSUNS2.exe, data game …      ← file game PC Anda (drive D: di Wine)
-├── TARUH-FILE-GAME-DI-SINI.txt
-└── saves/
-    ├── steam_userdata/<id>/543870/…   ← save Steam
-    ├── Documents/ , AppData/Roaming/
-    ├── .backup/<tanggal-jam>/         ← cadangan sebelum ditimpa
-    └── BACA-SAYA.txt
+core/  (Java murni, tanpa Android — diuji dengan JUnit di CI)
+  cpk/      CpkArchive, UtfTable, CriLayla     arsip CRI
+  xfbin/    Xfbin, NuccChunks                  kontainer CyberConnect2
+  texture/  NutTexture, BcDecoder              NTP3 + dekoder BCn
+  model/    NudModel                           mesh NDP3 (strip → segitiga)
+  scene/    SceneModel, Mat4                   kerangka → matriks dunia, mesh + material
+  vfs/      GameLibrary                        pemindai folder game & pembaca aset
+app/   (Android)
+  MainActivity, ModelGalleryActivity, AssetBrowserActivity, XfbinActivity, TextureActivity
+  ModelViewerActivity + viewer/ModelRenderer   OpenGL ES 3
 ```
+
+### Verifikasi yang dilakukan
+
+- Pembaca CPK dan CRILAYLA diuji terhadap arsip CPK sungguhan (termasuk yang terenkripsi) dan sampel CRILAYLA dari proyek CriFsV2Lib: semua file keluar byte-identik dengan aslinya.
+- Parser XFBIN/NUD/NUT dan perakitan kerangka diuji terhadap file XFBIN yang ditulis oleh *writer* xfbin_lib (implementasi independen): urutan halaman, transform tulang, tautan material→tekstur dan piksel DXT1 cocok dengan nilai yang diharapkan (`core/src/test`).
+- **Belum diuji dengan file Storm 2 asli** maupun di perangkat fisik oleh pembuat build ini, karena keduanya tidak tersedia di lingkungan build. Jika ada model yang gagal dimuat, layar pemuatan menampilkan pesan error — mohon laporkan di *Issues* beserta nama filenya.
 
 ## Membangun dari kode sumber
 
-Build dijalankan oleh GitHub Actions (`.github/workflows/build-apk.yml`):
-
-1. Checkout repo + submodule OpenXR-SDK.
-2. Ambil aset Winlator Cmod pada commit yang dipatok dan APK rilis Cmod v13.1.1, verifikasi SHA-256 (`tools/upstream-assets.lock.json`).
-3. `tools/prepare_assets.py` mengganti `com.winlator.cmod` → `com.nstorm2mobile` di dalam rootfs, Proton, dan driver. Kedua nama sama-sama 17 byte, jadi biner ELF tetap valid.
-4. `./gradlew assembleRelease` (AGP 8.8, NDK 27.0.12077973, JDK 17).
-
-Secara lokal (Linux, Android SDK + NDK terpasang, `xz` dan `zstd` tersedia):
-
 ```bash
-git clone --recursive https://github.com/aldiianshr-commits/NStorm-2-Mobile
+git clone https://github.com/aldiianshr-commits/NStorm-2-Mobile
 cd NStorm-2-Mobile
-# siapkan upstream-src (sparse checkout app/src/main/assets di commit terkunci) dan upstream-release.apk
-python3 tools/prepare_assets.py --upstream upstream-src --apk upstream-release.apk
-./gradlew assembleRelease
+./gradlew :core:test assembleRelease   # butuh Android SDK 34 & JDK 17
 ```
 
-Setiap build sukses di branch `main` membuat/memperbarui GitHub Release `v<versionName>`; naikkan `versionName` di `app/build.gradle` untuk rilis baru. Jika build gagal, log Gradle disimpan di branch `ci-logs`.
+CI (`.github/workflows/build-apk.yml`) menjalankan unit test engine, membangun & menandatangani APK, mengunggahnya sebagai artifact, dan membuat/memperbarui GitHub Release `v<versionName>` dari setiap build sukses di `main`. Jika build gagal, log disimpan di branch `ci-logs`.
 
 ### Keamanan kunci tanda tangan
 
-APK ditandatangani dengan `app/nstorm2-release.jks` yang **sengaja disimpan publik** di repo (sandi `nstorm2mobile`) agar setiap build CI bisa diinstal menimpa versi sebelumnya. Artinya siapa pun bisa membuat APK dengan tanda tangan yang sama; unduh APK hanya dari Releases/Actions repo ini.
+APK ditandatangani dengan `app/nstorm2-release.jks` yang sengaja publik (sandi `nstorm2mobile`) agar setiap build bisa diinstal menimpa versi sebelumnya. Unduh APK hanya dari Releases/Actions repo ini.
 
-## Kode yang ditambahkan proyek ini
+## Kredit
 
-- `app/src/main/java/com/winlator/cmod/nstorm2/` — peluncur, setelan, deteksi game, sinkronisasi save.
-- `app/src/main/java/com/winlator/cmod/core/AppPaths.java` — path data yang sebelumnya di-hardcode ke `com.winlator.cmod`.
-- `app/src/main/java/com/winlator/cmod/contents/AssetContentsInstaller.java` — installer konten yang bisa dipakai di luar `MainActivity`.
-- `app/src/main/assets/inputcontrols/profiles/controls-50.icp` — tata letak kontrol sentuh Storm 2.
-- `tools/` — persiapan & penggantian nama paket di aset.
+Format file dipelajari dari proyek terbuka berikut (kode NStorm 2 ditulis ulang dari nol dalam Java):
 
-## Kredit & lisensi
+- [xfbin_lib](https://github.com/SutandoTsukai181/xfbin_lib) & [cc2_xfbin_blender](https://github.com/SutandoTsukai181/cc2_xfbin_blender) — SutandoTsukai181 (MIT)
+- [NUCC 010 Template Library](https://github.com/KojoBailey/NUCC-010-Template-Library) — KojoBailey
+- [CriFsV2Lib](https://github.com/Sewer56/CriFsV2Lib) — Sewer56; [CriPakTools](https://github.com/esperknight/CriPakTools)
+- [Smash Forge](https://github.com/jam1garner/Smash-Forge) — format NUT/NUD Namco
 
-- NStorm 2 Mobile dan Winlator Cmod: MIT (lihat `LICENSE`).
-- [Winlator](https://github.com/brunodev85/winlator) oleh brunodev85; [Winlator Cmod](https://github.com/coffincolors/winlator) oleh coffincolors & Pipetto-crypto.
-- Wine (LGPL-2.1), Proton (Valve), Box64 (MIT, ptitSeb), FEX-Emu (MIT), DXVK (zlib), VKD3D-Proton (LGPL-2.1), Mesa Turnip (MIT), PRoot (GPL-2.0), OpenXR SDK (Apache-2.0), PulseAudio (LGPL-2.1).
-- NARUTO SHIPPUDEN: Ultimate Ninja STORM 2 adalah milik BANDAI NAMCO Entertainment / CyberConnect2 / Masashi Kishimoto. Proyek ini tidak berafiliasi dengan mereka dan tidak mendistribusikan file game.
+NARUTO SHIPPUDEN: Ultimate Ninja STORM 2 © Masashi Kishimoto / BANDAI NAMCO Entertainment / CyberConnect2. Proyek ini tidak berafiliasi dengan mereka dan tidak mendistribusikan data game.

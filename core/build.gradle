@@ -1,0 +1,21 @@
+// Platform-independent engine code: CPK/CRILAYLA, XFBIN, NUT, NUD, scene assembly.
+// Kept free of Android APIs so it can be unit-tested on any JVM.
+plugins {
+    id 'java-library'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.withType(Test).configureEach {
+    testLogging {
+        events 'passed', 'failed'
+        exceptionFormat 'full'
+    }
+}

@@ -1,15 +1,8 @@
-*.iml
-.gradle
-/local.properties
-/.idea/
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-
-# NStorm 2 Mobile CI inputs / outputs
-/upstream-src/
-/upstream-release.apk
-/dist/
+.gradle/
+build/
 local.properties
+.idea/
+*.iml
+.DS_Store
+/dist/
+/release/

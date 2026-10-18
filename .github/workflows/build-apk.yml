@@ -3,7 +3,6 @@ name: Build APK
 on:
   push:
     branches: [main]
-    tags: ['v*']
   pull_request:
   workflow_dispatch:
 
@@ -17,33 +16,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
-    env:
-      NDK_VERSION: 27.0.12077973
-      CMAKE_VERSION: 3.22.1
+    timeout-minutes: 60
 
     steps:
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/share/swift /usr/local/share/boost "$AGENT_TOOLSDIRECTORY/CodeQL" || true
-          df -h /
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Read pinned inputs
-        id: lock
-        run: |
-          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
-          import json
-          lock = json.load(open("tools/upstream-assets.lock.json"))
-          print("upstream_repo=" + lock["upstream"]["repo"])
-          print("upstream_commit=" + lock["upstream"]["commit"])
-          print("apk_url=" + lock["release_apk"]["url"])
-          print("apk_sha=" + lock["release_apk"]["sha256"])
-          EOF
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -51,37 +28,10 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Install NDK, CMake and archive tools
+      - name: Android SDK packages
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq zstd xz-utils
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install \
-            "ndk;${NDK_VERSION}" "cmake;${CMAKE_VERSION}" "platforms;android-34" "build-tools;34.0.0" > /dev/null
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "platforms;android-34" "build-tools;34.0.0" > /dev/null
           echo "sdk.dir=$ANDROID_HOME" > local.properties
-
-      - name: Cache upstream release APK
-        id: apk-cache
-        uses: actions/cache@v4
-        with:
-          path: upstream-release.apk
-          key: upstream-apk-${{ steps.lock.outputs.apk_sha }}
-
-      - name: Download upstream release APK
-        if: steps.apk-cache.outputs.cache-hit != 'true'
-        run: curl -fL --retry 5 --retry-delay 10 -o upstream-release.apk "${{ steps.lock.outputs.apk_url }}"
-
-      - name: Fetch upstream assets at pinned commit
-        run: |
-          git init -q upstream-src
-          cd upstream-src
-          git remote add origin "${{ steps.lock.outputs.upstream_repo }}"
-          git sparse-checkout set app/src/main/assets
-          git fetch -q --depth 1 --filter=blob:none origin "${{ steps.lock.outputs.upstream_commit }}"
-          git checkout -q FETCH_HEAD
-          du -sh app/src/main/assets
-
-      - name: Prepare and retarget assets
-        run: python3 -I tools/prepare_assets.py --upstream upstream-src --apk upstream-release.apk
 
       - name: Cache Gradle
         uses: actions/cache@v4
@@ -89,29 +39,28 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties', 'gradle/libs.versions.toml') }}
+          key: gradle-native-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Build release APK
+      - name: Unit tests (engine core) and release build
         run: |
           chmod +x gradlew
           set -o pipefail
-          ./gradlew assembleRelease --no-daemon --stacktrace --warning-mode=none 2>&1 | tee build.log
+          ./gradlew :core:test assembleRelease --no-daemon --stacktrace --warning-mode=none 2>&1 | tee build.log
 
       - name: Report build errors
         if: failure()
         run: |
-          grep -nE "error:|e: |What went wrong|FAILURE|Execution failed|Caused by|cannot find symbol|AAPT|CMake Error" build.log | head -60 > errors.txt || true
-          head -c 3500 errors.txt | sed 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' | sed 's/^/::error title=gradle::/' ; echo
-          # Publish the full log to the ci-logs branch so it can be read without the Actions log API.
+          grep -nE "error:|e: |What went wrong|FAILURE|Execution failed|Caused by|cannot find symbol|AAPT|FAILED|Test.*>" build.log | head -80 > errors.txt || true
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           mkdir -p /tmp/ci-logs && cp build.log errors.txt /tmp/ci-logs/ 2>/dev/null || true
+          cp -r core/build/reports/tests /tmp/ci-logs/test-report 2>/dev/null || true
           git fetch -q origin ci-logs || true
           git switch -q --orphan ci-logs-tmp
           git rm -rq --cached . >/dev/null 2>&1 || true
           if git rev-parse -q --verify origin/ci-logs >/dev/null; then git reset -q --soft origin/ci-logs; fi
           mkdir -p "logs/run-${GITHUB_RUN_NUMBER}"
-          cp /tmp/ci-logs/* "logs/run-${GITHUB_RUN_NUMBER}/"
+          cp -r /tmp/ci-logs/* "logs/run-${GITHUB_RUN_NUMBER}/"
           git add -f "logs/run-${GITHUB_RUN_NUMBER}"
           git commit -q -m "CI log for run ${GITHUB_RUN_NUMBER} (${GITHUB_SHA})"
           git push -q origin HEAD:refs/heads/ci-logs
@@ -120,37 +69,31 @@ jobs:
         id: apk
         run: |
           VERSION=$(grep -oP 'versionName "\K[^"]+' app/build.gradle)
-          SHORT=$(git rev-parse --short HEAD)
-          mkdir -p dist
-          NAME="NStorm2Mobile-v${VERSION}-${SHORT}.apk"
-          cp app/build/outputs/apk/release/app-release.apk "dist/${NAME}"
-          (cd dist && sha256sum "${NAME}" > "${NAME}.sha256")
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "dist/${NAME}" | head -5
-          "$ANDROID_HOME/build-tools/34.0.0/aapt2" dump badging "dist/${NAME}" | grep -E "^package|^sdkVersion|^targetSdkVersion|^application-label|^launchable-activity"
           mkdir -p release
-          cp "dist/${NAME}" "release/NStorm2Mobile-v${VERSION}.apk"
-          (cd release && sha256sum "NStorm2Mobile-v${VERSION}.apk" > "NStorm2Mobile-v${VERSION}.apk.sha256")
-          ls -la dist release
-          echo "name=${NAME}" >> "$GITHUB_OUTPUT"
+          NAME="NStorm2Mobile-v${VERSION}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "release/${NAME}"
+          (cd release && sha256sum "${NAME}" > "${NAME}.sha256")
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "release/${NAME}"
+          "$ANDROID_HOME/build-tools/34.0.0/aapt2" dump badging "release/${NAME}" | grep -E "^package|^sdkVersion|^targetSdkVersion|^application-label|^launchable-activity|^native-code" || true
+          ls -la release
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "name=${NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.apk.outputs.name }}
-          path: dist/*
-          compression-level: 0
+          path: release/*
           retention-days: 30
 
-      # Every successful build of main (or a v* tag) publishes/updates the release
-      # "v<versionName>"; bump versionName in app/build.gradle for a new release.
+      # Every successful build of main publishes/updates the release v<versionName>.
       - name: Publish GitHub Release
-        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.apk.outputs.version }}
           target_commitish: ${{ github.sha }}
-          name: NStorm 2 Mobile v${{ steps.apk.outputs.version }}
+          name: NStorm 2 Mobile v${{ steps.apk.outputs.version }} (native)
           files: release/*
           body_path: RELEASE_NOTES.md
           make_latest: true
