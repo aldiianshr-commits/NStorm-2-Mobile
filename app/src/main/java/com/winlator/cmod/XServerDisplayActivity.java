@@ -249,12 +249,12 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
     private AudioManager audioManager;
 
     private static final String[] MEDIACONV_ENV_VARS = {
-            "MEDIACONV_AUDIO_DUMP_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/audio.dmp",
-            "MEDIACONV_VIDEO_DUMP_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/video.dmp",
-            "MEDIACONV_VIDEO_TRANSCODED_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/transcoded.mkv",
-            "MEDIACONV_AUDIO_TRANSCODED_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/transcoded.wav",
-            "MEDIACONV_BLANK_AUDIO_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/blank.wav",
-            "MEDIACONV_BLANK_VIDEO_FILE=/data/data/com.winlator.cmod/files/imagefs/home/xuser/blank.mkv",
+            "MEDIACONV_AUDIO_DUMP_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/audio.dmp",
+            "MEDIACONV_VIDEO_DUMP_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/video.dmp",
+            "MEDIACONV_VIDEO_TRANSCODED_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/transcoded.mkv",
+            "MEDIACONV_AUDIO_TRANSCODED_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/transcoded.wav",
+            "MEDIACONV_BLANK_AUDIO_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/blank.wav",
+            "MEDIACONV_BLANK_VIDEO_FILE="+com.winlator.cmod.core.AppPaths.IMAGEFS_DIR+"/home/xuser/blank.mkv",
     };
 
 

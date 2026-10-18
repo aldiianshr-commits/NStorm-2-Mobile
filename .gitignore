@@ -7,3 +7,9 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# NStorm 2 Mobile CI inputs / outputs
+/upstream-src/
+/upstream-release.apk
+/dist/
+local.properties

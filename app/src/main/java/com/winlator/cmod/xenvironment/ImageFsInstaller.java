@@ -9,7 +9,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.winlator.cmod.MainActivity;
 import com.winlator.cmod.R;
 import com.winlator.cmod.SettingsFragment;
 import com.winlator.cmod.container.Container;
@@ -53,7 +52,7 @@ public abstract class ImageFsInstaller {
         }
     }
 
-    public static void installWineFromAssets(final MainActivity activity) {
+    public static void installWineFromAssets(final AppCompatActivity activity) {
         String[] versions = activity.getResources().getStringArray(R.array.wine_entries);
         File rootDir = ImageFs.find(activity).getRootDir();
         for (String version : versions) {
@@ -63,7 +62,7 @@ public abstract class ImageFsInstaller {
         }
     }
 
-    public static void installFromAssets(final MainActivity activity) {
+    public static void installFromAssets(final AppCompatActivity activity) {
         AppUtils.keepScreenOn(activity);
         ImageFs imageFs = ImageFs.find(activity);
         File rootDir = imageFs.getRootDir();
@@ -99,7 +98,7 @@ public abstract class ImageFsInstaller {
         });
     }
 
-    public static void installFromAssets(final MainActivity activity, final Runnable onCompletion) {
+    public static void installFromAssets(final AppCompatActivity activity, final Runnable onCompletion) {
         AppUtils.keepScreenOn(activity);
         ImageFs imageFs = ImageFs.find(activity);
         File rootDir = imageFs.getRootDir();
@@ -140,12 +139,12 @@ public abstract class ImageFsInstaller {
         });
     }
 
-    public static void installIfNeeded(final MainActivity activity) {
+    public static void installIfNeeded(final AppCompatActivity activity) {
         ImageFs imageFs = ImageFs.find(activity);
         if (!imageFs.isValid() || imageFs.getVersion() < LATEST_VERSION) installFromAssets(activity);
     }
 
-    public static void installIfNeeded(final MainActivity activity, final Runnable onCompletion) {
+    public static void installIfNeeded(final AppCompatActivity activity, final Runnable onCompletion) {
         ImageFs imageFs = ImageFs.find(activity);
 
         // Fresh Install. The imagefs is not valid/doesn't exist.

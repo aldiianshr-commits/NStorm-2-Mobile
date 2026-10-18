@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nstorm_app_name">NStorm 2 Mobile</string>
+    <string name="nstorm_tagline">Peluncur Naruto Shippuden: Ultimate Ninja Storm 2 (PC) untuk Android</string>
+
+    <string name="nstorm_section_status">STATUS</string>
+    <string name="nstorm_section_game">GAME</string>
+    <string name="nstorm_section_tools">ALAT</string>
+
+    <string name="nstorm_status_permission">Izin penyimpanan</string>
+    <string name="nstorm_status_system">Sistem Windows (Wine + Box64/FEX + DXVK)</string>
+    <string name="nstorm_status_folder">Folder game</string>
+    <string name="nstorm_status_exe">File game</string>
+    <string name="nstorm_status_saves">Folder save</string>
+    <string name="nstorm_status_engine">Mesin &amp; driver GPU</string>
+
+    <string name="nstorm_play">MAINKAN</string>
+    <string name="nstorm_settings">Pengaturan Grafis &amp; Performa</string>
+    <string name="nstorm_controls_edit">Edit Tata Letak Kontrol Sentuh</string>
+    <string name="nstorm_choose_folder">Pilih Folder Game</string>
+    <string name="nstorm_sync_now">Sinkronkan Save Sekarang</string>
+    <string name="nstorm_run_other">Jalankan Program Lain (.exe)</string>
+    <string name="nstorm_advanced">Mode Lanjutan (Winlator)</string>
+    <string name="nstorm_help">Bantuan &amp; Batasan Teknis</string>
+
+    <string name="nstorm_ok_granted">Diberikan</string>
+    <string name="nstorm_grant">Ketuk untuk memberi izin</string>
+    <string name="nstorm_system_ready">Terpasang</string>
+    <string name="nstorm_system_installing">Sedang memasang… (hanya sekali, ±1–3 menit)</string>
+    <string name="nstorm_system_missing">Belum terpasang</string>
+    <string name="nstorm_folder_missing">Tidak ada. Ketuk \"Pilih Folder Game\" atau buat folder ini lalu salin file game.</string>
+    <string name="nstorm_exe_missing">NSUNS2.exe tidak ditemukan di folder game.</string>
+    <string name="nstorm_exe_steam_note">— butuh klien Steam (steam_api64.dll ada)</string>
+
+    <string name="nstorm_preparing">Menyiapkan game…</string>
+    <string name="nstorm_syncing">Menyinkronkan save…</string>
+
+    <string name="nstorm_settings_title">Pengaturan NStorm 2</string>
+
+    <string name="nstorm_steam_notice"><![CDATA[
+Folder game berisi <b>steam_api64.dll</b>, artinya ini versi Steam. Saat dibuka langsung, NSUNS2.exe akan mencari klien Steam dan biasanya <b>langsung menutup diri</b> jika Steam tidak berjalan.<br><br>
+Pilihan yang didukung:<br>
+1. Pasang <b>Steam untuk Windows</b> di dalam NStorm 2 (taruh SteamSetup.exe resmi di folder game, lalu &quot;Jalankan Program Lain&quot;), login, kemudian ubah <i>Cara menjalankan</i> ke <b>Melalui klien Steam</b> di Pengaturan.<br>
+2. Gunakan salinan game yang memang bisa berjalan tanpa klien Steam (milik Anda sendiri).<br><br>
+NStorm 2 Mobile tidak menyertakan maupun memasang crack/bypass DRM.
+]]></string>
+
+    <string name="nstorm_help_html"><![CDATA[
+<b>Cara kerja</b><br>
+NStorm 2 Mobile tidak mengubah game menjadi aplikasi Android asli (kode sumber game tidak tersedia). Aplikasi ini menjalankan <b>NSUNS2.exe versi PC</b> memakai lapisan kompatibilitas: Wine/Proton 9 (Windows API), FEXCore atau Box64 (CPU x86-64 → ARM64), DXVK (Direct3D 11 → Vulkan) dan driver Mesa Turnip untuk Adreno 650.<br><br>
+<b>Menyiapkan game</b><br>
+1. Salin seluruh isi folder instalasi PC game ke <b>/storage/emulated/0/nstorm2/</b> (±8 GB).<br>
+2. Buka aplikasi, beri izin, tunggu pemasangan sistem pertama kali.<br>
+3. Ketuk MAINKAN. Pembukaan pertama lebih lama karena shader dikompilasi.<br><br>
+<b>Save game</b><br>
+Disalin otomatis ke <b>/storage/emulated/0/nstorm2/saves/</b> setiap game ditutup, dan dikembalikan sebelum game dibuka. Salinan cadangan ada di <i>saves/.backup</i>.<br><br>
+<b>Kontrol</b><br>
+• Layar sentuh: tata letak gamepad Xbox virtual (game menampilkan tombol Xbox). Ubah posisi lewat &quot;Edit Tata Letak Kontrol Sentuh&quot;.<br>
+• Gamepad fisik (USB/Bluetooth): terdeteksi otomatis sebagai pemain 1 (XInput).<br>
+• Ketuk <b>4 jari</b> atau tombol Kembali saat bermain untuk membuka menu (keluar, keyboard, ganti kontrol).<br><br>
+<b>Rekomendasi Xiaomi Pad 6 (Snapdragon 870)</b><br>
+Mesin ARM64EC + FEXCore, driver Turnip 25.3.0 R3 Auto, DXVK otomatis (2.3.1 GPL-Async), resolusi 1280×800, batas 60 FPS (pilih 30 FPS jika perangkat panas), inti CPU 4–7. Aktifkan mode performa/game di HyperOS.<br><br>
+<b>Batasan teknis</b><br>
+• Versi Steam memerlukan klien Steam untuk Windows yang berjalan di dalam Wine; klien Steam berat dan bisa tidak stabil di emulasi.<br>
+• Performa bergantung pada emulasi CPU x86-64; adegan ramai/jurus besar bisa turun FPS.<br>
+• Mode online/jaringan tidak diuji. Mod/trainer tidak didukung.<br>
+• Game tidak disertakan dan tidak diunduh oleh aplikasi ini.
+]]></string>
+</resources>

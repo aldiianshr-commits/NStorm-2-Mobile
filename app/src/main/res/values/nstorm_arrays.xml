@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="nstorm_engine_entries">
+        <item>ARM64EC + FEXCore (direkomendasikan, lebih cepat)</item>
+        <item>x86-64 + Box64 (cadangan kompatibilitas)</item>
+    </string-array>
+    <string-array name="nstorm_engine_values">
+        <item>arm64ec</item>
+        <item>x86_64</item>
+    </string-array>
+
+    <string-array name="nstorm_gpu_entries">
+        <item>Turnip 25.3.0 R3 Auto (direkomendasikan untuk Adreno 650)</item>
+        <item>Turnip 25.3.0 R3 GMEM</item>
+        <item>Turnip 25.1.0</item>
+        <item>Driver bawaan Qualcomm (System)</item>
+    </string-array>
+    <string-array name="nstorm_gpu_values">
+        <item>turnip25.3.0_R3_Auto</item>
+        <item>turnip25.3.0_R3_Gmem</item>
+        <item>turnip25.1.0</item>
+        <item>System</item>
+    </string-array>
+
+    <string-array name="nstorm_dxvk_entries">
+        <item>Otomatis (sesuai mesin &amp; driver)</item>
+        <item>DXVK 2.4.1 GPL-Async (x86-64)</item>
+        <item>DXVK 2.4.1 (x86-64)</item>
+        <item>DXVK 2.3.1 (x86-64)</item>
+        <item>DXVK 2.3.1 GPL-Async (ARM64EC)</item>
+        <item>DXVK 1.10.3 Async (untuk driver System)</item>
+        <item>DXVK 1.10.3</item>
+    </string-array>
+    <string-array name="nstorm_dxvk_values">
+        <item>auto</item>
+        <item>2.4.1-gplasync</item>
+        <item>2.4.1</item>
+        <item>2.3.1</item>
+        <item>2.3.1-arm64ec-gplasync</item>
+        <item>async-1.10.3</item>
+        <item>1.10.3</item>
+    </string-array>
+
+    <string-array name="nstorm_resolution_entries">
+        <item>960 × 600 (16:10, paling ringan)</item>
+        <item>1280 × 720 (16:9)</item>
+        <item>1280 × 800 (16:10, direkomendasikan)</item>
+        <item>1440 × 900 (16:10)</item>
+        <item>1600 × 900 (16:9)</item>
+        <item>1920 × 1080 (16:9)</item>
+        <item>1920 × 1200 (16:10)</item>
+    </string-array>
+    <string-array name="nstorm_resolution_values">
+        <item>960x600</item>
+        <item>1280x720</item>
+        <item>1280x800</item>
+        <item>1440x900</item>
+        <item>1600x900</item>
+        <item>1920x1080</item>
+        <item>1920x1200</item>
+    </string-array>
+
+    <string-array name="nstorm_fps_entries">
+        <item>Tanpa batas</item>
+        <item>30 FPS (hemat baterai &amp; suhu)</item>
+        <item>45 FPS</item>
+        <item>60 FPS (bawaan game)</item>
+    </string-array>
+    <string-array name="nstorm_fps_values">
+        <item>0</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="nstorm_vram_entries">
+        <item>Otomatis</item>
+        <item>1 GB</item>
+        <item>2 GB</item>
+        <item>3 GB</item>
+        <item>4 GB</item>
+    </string-array>
+    <string-array name="nstorm_vram_values">
+        <item>0</item>
+        <item>1024</item>
+        <item>2048</item>
+        <item>3072</item>
+        <item>4096</item>
+    </string-array>
+
+    <string-array name="nstorm_framesync_entries">
+        <item>Normal</item>
+        <item>Selalu (kurangi tearing)</item>
+        <item>Tidak pernah (latensi terendah)</item>
+    </string-array>
+    <string-array name="nstorm_framesync_values">
+        <item>Normal</item>
+        <item>Always</item>
+        <item>Never</item>
+    </string-array>
+
+    <string-array name="nstorm_cpu_entries">
+        <item>Inti performa 4–7 (direkomendasikan Snapdragon 870)</item>
+        <item>Inti performa 4–6 (sisakan inti utama untuk sistem)</item>
+        <item>Semua inti 0–7</item>
+    </string-array>
+    <string-array name="nstorm_cpu_values">
+        <item>4,5,6,7</item>
+        <item>4,5,6</item>
+        <item>0,1,2,3,4,5,6,7</item>
+    </string-array>
+
+    <string-array name="nstorm_box64_entries">
+        <item>Stabilitas</item>
+        <item>Kompatibilitas</item>
+        <item>Menengah (direkomendasikan)</item>
+        <item>Performa</item>
+    </string-array>
+    <string-array name="nstorm_box64_values">
+        <item>STABILITY</item>
+        <item>COMPATIBILITY</item>
+        <item>INTERMEDIATE</item>
+        <item>PERFORMANCE</item>
+    </string-array>
+
+    <string-array name="nstorm_audio_entries">
+        <item>ALSA Reflector (direkomendasikan)</item>
+        <item>ALSA</item>
+        <item>PulseAudio</item>
+    </string-array>
+    <string-array name="nstorm_audio_values">
+        <item>alsa-reflector</item>
+        <item>alsa</item>
+        <item>pulseaudio</item>
+    </string-array>
+
+    <string-array name="nstorm_control_entries">
+        <item>Otomatis (gamepad bila terhubung, selain itu layar sentuh)</item>
+        <item>Selalu layar sentuh</item>
+        <item>Selalu gamepad fisik</item>
+    </string-array>
+    <string-array name="nstorm_control_values">
+        <item>auto</item>
+        <item>touch</item>
+        <item>gamepad</item>
+    </string-array>
+
+    <string-array name="nstorm_launch_entries">
+        <item>Langsung (NSUNS2.exe)</item>
+        <item>Melalui klien Steam untuk Windows</item>
+    </string-array>
+    <string-array name="nstorm_launch_values">
+        <item>direct</item>
+        <item>steam</item>
+    </string-array>
+</resources>

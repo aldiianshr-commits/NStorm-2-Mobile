@@ -171,7 +171,7 @@ static void initialize_all_pads(void)
 
         char path[256];
         snprintf(path, sizeof path,
-                 "/data/data/com.winlator.cmod/files/imagefs/tmp/gamepad%s.mem",
+                 "/data/data/com.nstorm2mobile/files/imagefs/tmp/gamepad%s.mem",
                  (i == 0) ? "" : (char[2]){'0' + i, '\0'});
 
         /* open once – store for reader + writer */

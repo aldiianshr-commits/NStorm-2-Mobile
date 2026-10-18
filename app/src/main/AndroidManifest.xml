@@ -38,9 +38,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
-        android:label="Winlator Cmod"
-        android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/nstorm_app_name"
+        android:icon="@mipmap/ic_nstorm"
+        android:roundIcon="@mipmap/ic_nstorm_round"
         android:theme="@style/AppTheme"
         android:appCategory="game"
         android:isGame="true"
@@ -50,11 +50,11 @@
         android:supportsRtl="true"
         tools:ignore="DataExtractionRules,GoogleAppIndexingWarning">
 
-        <!-- Main activity -->
+        <!-- NStorm 2 Mobile launcher (single-game front end) -->
         <activity
-            android:name="com.winlator.cmod.MainActivity"
-            android:theme="@style/AppTheme.Dark"
-            android:screenOrientation="sensor"
+            android:name="com.winlator.cmod.nstorm2.NStormLauncherActivity"
+            android:theme="@style/Theme.NStorm"
+            android:label="@string/nstorm_app_name"
             android:exported="true"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|density|navigation">
             <intent-filter>
@@ -62,6 +62,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.winlator.cmod.nstorm2.NStormSettingsActivity"
+            android:theme="@style/Theme.NStorm.Settings"
+            android:label="@string/nstorm_settings_title"
+            android:exported="false" />
+
+        <!-- Upstream Winlator Cmod UI, reachable as "Mode Lanjutan" -->
+        <activity
+            android:name="com.winlator.cmod.MainActivity"
+            android:theme="@style/AppTheme.Dark"
+            android:screenOrientation="sensor"
+            android:exported="false"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|density|navigation" />
 
         <activity
             android:name="com.winlator.cmod.BigPictureActivity"
@@ -94,7 +108,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="com.oculus.intent.category.VR" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -119,7 +132,7 @@
         <!-- FileProvider for sharing files -->
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.winlator.cmod.tileprovider"
+            android:authorities="${applicationId}.tileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -130,7 +143,7 @@
         <!-- Provider for Winlator’s DocumentProvider or similar usage -->
         <provider
             android:name=".core.WinlatorFilesProvider"
-            android:authorities="com.winlator.cmod.core.WinlatorFilesProvider"
+            android:authorities="${applicationId}.core.WinlatorFilesProvider"
             android:exported="true"
             android:grantUriPermissions="true"
             android:permission="android.permission.MANAGE_DOCUMENTS">

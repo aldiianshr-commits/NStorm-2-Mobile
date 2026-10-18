@@ -673,7 +673,7 @@ public class ShortcutsFragment extends Fragment {
                     writer.write("Expand Advanced:\n");
                     writer.write("File handling: Default\n");
                     writer.write("Use custom launch: True\n");
-                    writer.write("am start command: am start -n " + "com.winlator.cmod/com.winlator.cmod.XServerDisplayActivity -e shortcut_path {file_path}\n\n");
+                    writer.write("am start command: am start -n " + getContext().getPackageName() + "/com.winlator.cmod.XServerDisplayActivity -e shortcut_path {file_path}\n\n");
                     writer.write("4. Click Save\n");
                     writer.write("5. Scan the folder for your game\n");
                     writer.write("6. Launch your game!\n");
@@ -691,7 +691,7 @@ public class ShortcutsFragment extends Fragment {
                 writer.write("shortname: windows\n");
                 writer.write("extensions: desktop\n");
                 writer.write("launch: am start\n");
-                writer.write("  -n " + "com.winlator.cmod/com.winlator.cmod.XServerDisplayActivity\n");
+                writer.write("  -n " + getContext().getPackageName() + "/com.winlator.cmod.XServerDisplayActivity\n");
                 writer.write("  -e shortcut_path {file.path}\n");
                 writer.write("  --activity-clear-task\n");
                 writer.write("  --activity-clear-top\n");

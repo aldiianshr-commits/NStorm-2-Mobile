@@ -4,3 +4,12 @@
 /src/main/assets/proton-9.0-x86_64.txz
 /src/main/assets/proton-9.0-arm64ec.txz
 /src/main/assets/imagefs.txz
+
+# Binary assets fetched and retargeted by tools/prepare_assets.py (see tools/upstream-assets.lock.json)
+/src/main/assets/**/*.tzst
+/src/main/assets/*.tzst
+/src/main/assets/**/*.wcp
+/src/main/assets/**/*.txz
+/src/main/assets/*.txz
+/src/main/assets/**/*.tar.xz
+/src/main/assets/default_music.mp3

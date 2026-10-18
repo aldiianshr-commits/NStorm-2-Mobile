@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/nstorm_bg"
+    android:fillViewport="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/NSContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="32dp">
+
+            <!-- Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:background="@color/nstorm_icon_bg"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_nstorm_foreground" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nstorm_app_name"
+                        android:textColor="@color/nstorm_text"
+                        android:textSize="24sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/nstorm_tagline"
+                        android:textColor="@color/nstorm_text_muted"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Play -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSPlay"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="22dp"
+                android:text="@string/nstorm_play"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.12"
+                app:backgroundTint="@color/nstorm_accent"
+                app:cornerRadius="16dp"
+                app:icon="@drawable/ic_ns_play"
+                app:iconGravity="textStart"
+                app:iconSize="28dp"
+                app:iconTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/NSPlayHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="@color/nstorm_text_muted"
+                android:textSize="12sp" />
+
+            <!-- Status -->
+            <TextView
+                style="@style/NStorm.SectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_section_status" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/NStorm.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/NSStatusList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Game -->
+            <TextView
+                style="@style/NStorm.SectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_section_game" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSSettings"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_settings"
+                app:icon="@drawable/ic_ns_tune" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSControls"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_controls_edit"
+                app:icon="@drawable/ic_ns_touch" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSFolder"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_choose_folder"
+                app:icon="@drawable/ic_ns_folder" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSSync"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_sync_now"
+                app:icon="@drawable/ic_ns_sync" />
+
+            <!-- Tools -->
+            <TextView
+                style="@style/NStorm.SectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_section_tools" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSRunOther"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_run_other"
+                app:icon="@drawable/ic_ns_apps" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSAdvanced"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_advanced"
+                app:icon="@drawable/ic_ns_build" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/NSHelp"
+                style="@style/NStorm.ActionButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nstorm_help"
+                app:icon="@drawable/ic_ns_help" />
+
+            <TextView
+                android:id="@+id/NSFooter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:textColor="@color/nstorm_text_muted"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>

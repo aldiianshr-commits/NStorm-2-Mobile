@@ -26,13 +26,20 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.winlator.cmod"
+        // NStorm 2 Mobile. The id is deliberately 17 characters long, the same
+        // length as upstream's "com.winlator.cmod": the prebuilt rootfs contains
+        // that absolute data path inside ELF binaries, and tools/prepare_assets.py
+        // rewrites it byte-for-byte without shifting any offsets.
+        applicationId "com.nstorm2mobile"
         minSdkVersion 26
 
+        // Must stay at 28: Android 10+ (target 29+) forbids executing binaries
+        // extracted to the app data dir, which Wine/Box64 rely on.
         targetSdkVersion 28
 
-        versionCode 20
-        versionName "Cmod-v13.1"
+        versionCode 1
+        versionName "1.0.0"
+        resValue "string", "nstorm_build_info", "NStorm 2 Mobile 1.0.0 (Winlator Cmod v13.1 base)"
 
         // External native build from Winlator
         externalNativeBuild {
@@ -55,12 +62,37 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    // Keep Winlator’s buildTypes
+    buildFeatures {
+        buildConfig true
+    }
+
+    signingConfigs {
+        // Public community signing key committed to the repo so every CI build
+        // can be installed over the previous one. See README "Keamanan".
+        nstorm2 {
+            storeFile file('nstorm2-release.jks')
+            storePassword 'nstorm2mobile'
+            keyAlias 'nstorm2'
+            keyPassword 'nstorm2mobile'
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.nstorm2
         }
-        // If you have a release build type, add it here
+        release {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.nstorm2
+        }
+    }
+
+    // The bundled archives are already xz/zstd compressed; deflating them again
+    // only slows down first-run extraction on the device.
+    androidResources {
+        noCompress += ['txz', 'tzst', 'wcp', 'xz', 'mp3', 'sf2']
     }
 
 

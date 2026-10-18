@@ -237,10 +237,10 @@ public class BionicProgramLauncherComponent extends GuestProgramLauncherComponen
             String memPath;
             if (i == 0) {
                 // Player 1 uses the original, non-numbered path that is known to work.
-                memPath = "/data/data/com.winlator.cmod/files/imagefs/tmp/gamepad.mem";
+                memPath = com.winlator.cmod.core.AppPaths.gamepadMemPath(0);
             } else {
                 // Players 2, 3, 4 use a 1-based index.
-                memPath = "/data/data/com.winlator.cmod/files/imagefs/tmp/gamepad" + i + ".mem";
+                memPath = com.winlator.cmod.core.AppPaths.gamepadMemPath(i);
             }
 
             File memFile = new File(memPath);

@@ -1,0 +1,32 @@
+{
+  "comment": "Binary inputs that are not committed to this repository. CI fetches and verifies them; see tools/prepare_assets.py.",
+  "upstream": {
+    "repo": "https://github.com/coffincolors/winlator",
+    "commit": "49bfb90fce932107cf6a7c1af62f910e7a1a2bfd",
+    "license": "MIT",
+    "assets_path": "app/src/main/assets"
+  },
+  "release_apk": {
+    "url": "https://github.com/coffincolors/winlator/releases/download/cmod_v13.1/Winlator-Cmod-v13.1.1.apk",
+    "sha256": "a106e46f3da92263df269fcd1e2b4712b3a35f89e0aaa202e2b6821ab64a1fda",
+    "files": {
+      "assets/contents/FEXCore-2508.wcp": "6831cd5f56a5978c75714567ad00d3c8343a61c1e1728c70008ffe6902983bd2",
+      "assets/contents/dxvk-1.10.3-arm64ec-async.wcp": "2ac51e4fc0b9e5cc6f0c8697b3b6f47d581ea15a766cf69bb033f3fab64d9d73",
+      "assets/contents/dxvk-1.10.8-sarek.wcp": "6a8bf9b0b01a39918cc7b61010fc845c7aa01f81fc97a5808395ffd24b600eaa",
+      "assets/contents/dxvk-v2.6.2-1-gplasync.wcp": "9b8cbc75de47455f853b6e7009034159898be23fb12e5d919c0ed88a0424abbb",
+      "assets/contents/dxvk_1.10.6_sarek_async.wcp": "92f413c5599a52bd80be5b577ef8aa3d7a03cf4b5cfc52ce52099716488136ad",
+      "assets/contents/dxvk_1.10_stripped.wcp": "2ea1e704f6a336ff0d2072c9893636f1a6d29cee24114f0fe2281fbfd8cca926",
+      "assets/contents/vkd3d-2.14.1-arm64ec.wcp": "1f8b892093d30bed16916c5c68b9b23115e68292771a7415e8d72cc196b5e319",
+      "assets/graphics_driver/adrenotools-turnip25.3.0_R3_Auto.tzst": "b27993507f70cac00cbc9c266f8574c0f47d74642eaaa0a22ac0ad5c3ea2a594",
+      "assets/graphics_driver/adrenotools-turnip25.3.0_R3_Gmem.tzst": "1d759224be7a2666f12e2f0d0491224507e484bbda26122ee1c213db8dd3b0dd",
+      "assets/graphics_driver/libvulkan_wrapper.tar.xz": "e634370220234bdd3c1f89c34cf3bca514c5c38d8784e64e4ce07d90da686e58",
+      "assets/imagefs.txz": "368db62bfc58b72c97e5169bda9aa64d4246f07964c447e27c79a065e7e9c48b",
+      "assets/proton-9.0-arm64ec.txz": "dbdc09e09fb92420b60a3ce5c87ca23fee6021691b92281019fe55c25f49bc57",
+      "assets/proton-9.0-x86_64.txz": "922155d4a096730390029f72f074d7074f0a5edc7abb13b55a7b10092b0f3a2a"
+    }
+  },
+  "package_rename": {
+    "from": "com.winlator.cmod",
+    "to": "com.nstorm2mobile"
+  }
+}
