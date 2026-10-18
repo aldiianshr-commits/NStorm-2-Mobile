@@ -94,6 +94,11 @@ android {
 
     // The bundled archives are already xz/zstd compressed; deflating them again
     // only slows down first-run extraction on the device.
+    lint {
+        // targetSdk 28 is required (see defaultConfig); this APK is not distributed via Google Play.
+        disable 'ExpiredTargetSdkVersion'
+    }
+
     androidResources {
         noCompress += ['txz', 'tzst', 'wcp', 'xz', 'mp3', 'sf2']
     }
