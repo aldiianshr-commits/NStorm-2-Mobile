@@ -94,7 +94,27 @@ jobs:
       - name: Build release APK
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease --no-daemon --stacktrace --warning-mode=none
+          set -o pipefail
+          ./gradlew assembleRelease --no-daemon --stacktrace --warning-mode=none 2>&1 | tee build.log
+
+      - name: Report build errors
+        if: failure()
+        run: |
+          grep -nE "error:|e: |What went wrong|FAILURE|Execution failed|Caused by|cannot find symbol|AAPT|CMake Error" build.log | head -60 > errors.txt || true
+          head -c 3500 errors.txt | sed 's/%/%25/g' | awk 'BEGIN{ORS="%0A"} {print}' | sed 's/^/::error title=gradle::/' ; echo
+          # Publish the full log to the ci-logs branch so it can be read without the Actions log API.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p /tmp/ci-logs && cp build.log errors.txt /tmp/ci-logs/ 2>/dev/null || true
+          git fetch -q origin ci-logs || true
+          git switch -q --orphan ci-logs-tmp
+          git rm -rq --cached . >/dev/null 2>&1 || true
+          if git rev-parse -q --verify origin/ci-logs >/dev/null; then git reset -q --soft origin/ci-logs; fi
+          mkdir -p "logs/run-${GITHUB_RUN_NUMBER}"
+          cp /tmp/ci-logs/* "logs/run-${GITHUB_RUN_NUMBER}/"
+          git add -f "logs/run-${GITHUB_RUN_NUMBER}"
+          git commit -q -m "CI log for run ${GITHUB_RUN_NUMBER} (${GITHUB_SHA})"
+          git push -q origin HEAD:refs/heads/ci-logs
 
       - name: Collect APK
         id: apk
