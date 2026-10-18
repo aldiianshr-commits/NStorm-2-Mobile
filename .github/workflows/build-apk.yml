@@ -127,7 +127,10 @@ jobs:
           (cd dist && sha256sum "${NAME}" > "${NAME}.sha256")
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs "dist/${NAME}" | head -5
           "$ANDROID_HOME/build-tools/34.0.0/aapt2" dump badging "dist/${NAME}" | grep -E "^package|^sdkVersion|^targetSdkVersion|^application-label|^launchable-activity"
-          ls -la dist
+          mkdir -p release
+          cp "dist/${NAME}" "release/NStorm2Mobile-v${VERSION}.apk"
+          (cd release && sha256sum "NStorm2Mobile-v${VERSION}.apk" > "NStorm2Mobile-v${VERSION}.apk.sha256")
+          ls -la dist release
           echo "name=${NAME}" >> "$GITHUB_OUTPUT"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
@@ -139,10 +142,16 @@ jobs:
           compression-level: 0
           retention-days: 30
 
+      # Every successful build of main (or a v* tag) publishes/updates the release
+      # "v<versionName>"; bump versionName in app/build.gradle for a new release.
       - name: Publish GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v'))
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*
+          tag_name: v${{ steps.apk.outputs.version }}
+          target_commitish: ${{ github.sha }}
+          name: NStorm 2 Mobile v${{ steps.apk.outputs.version }}
+          files: release/*
           body_path: RELEASE_NOTES.md
+          make_latest: true
           fail_on_unmatched_files: true
