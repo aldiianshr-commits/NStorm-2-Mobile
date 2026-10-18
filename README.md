@@ -100,7 +100,7 @@ python3 tools/prepare_assets.py --upstream upstream-src --apk upstream-release.a
 ./gradlew assembleRelease
 ```
 
-Rilis GitHub dibuat otomatis saat tag `v*` di-push.
+Setiap build sukses di branch `main` membuat/memperbarui GitHub Release `v<versionName>`; naikkan `versionName` di `app/build.gradle` untuk rilis baru. Jika build gagal, log Gradle disimpan di branch `ci-logs`.
 
 ### Keamanan kunci tanda tangan
 
